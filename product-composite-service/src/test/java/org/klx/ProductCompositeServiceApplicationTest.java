@@ -1,7 +1,5 @@
 package org.klx;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
