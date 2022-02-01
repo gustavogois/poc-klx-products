@@ -1,5 +1,6 @@
 package org.klx.util.http;
 
+import org.klx.api.exceptions.BadRequestException;
 import org.klx.api.exceptions.InvalidInputException;
 import org.klx.api.exceptions.NotFoundException;
 import org.slf4j.Logger;
@@ -11,13 +12,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
+import static org.springframework.http.HttpStatus.*;
 
 @RestControllerAdvice
 class GlobalControllerExceptionHandler {
 
   private static final Logger LOG = LoggerFactory.getLogger(GlobalControllerExceptionHandler.class);
+
+  @ResponseStatus(BAD_REQUEST)
+  @ExceptionHandler(BadRequestException.class)
+  public @ResponseBody HttpErrorInfo handleBadRequestExceptions(
+          ServerHttpRequest request, BadRequestException ex) {
+
+    return createHttpErrorInfo(BAD_REQUEST, request, ex);
+  }
 
   @ResponseStatus(NOT_FOUND)
   @ExceptionHandler(NotFoundException.class)
